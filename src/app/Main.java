@@ -86,25 +86,26 @@ public class Main {
         Grafo<Aluno> grafo = new Grafo<>(comp);
         Vertice <Aluno> a = grafo.adicionaVertice(aluno);
         Vertice<Aluno> b = grafo.adicionaVertice(aluno1);
-        Vertice<Aluno> c =grafo.adicionaVertice(aluno2);
-        Vertice<Aluno>d=grafo.adicionaVertice(aluno3);
-        Vertice<Aluno>e =grafo.adicionaVertice(aluno4);
+        Vertice<Aluno> c = grafo.adicionaVertice(aluno2);
+        Vertice<Aluno>d = grafo.adicionaVertice(aluno3);
+        Vertice<Aluno>e = grafo.adicionaVertice(aluno4);
+        Vertice<Aluno>f = grafo.adicionaVertice(aluno5);
 
 
-        grafo.adicionarAresta(e, b, 0);
+        //grafo.adicionarAresta(e, b, 0);
         //grafo.adicionarAresta(b,c, 0);
+        grafo.adicionarAresta(f, a, 0);
+        grafo.adicionarAresta(f, c,1);// não vai
         grafo.adicionarAresta(c, d, 0);
-        grafo.adicionarAresta(d, a, 0);// não vai
-        grafo.adicionarAresta(b, d, 0);
-        grafo.adicionarAresta(a, e, 0);
-        grafo.adicionarAresta(a, c, 0);
+        grafo.adicionarAresta(e, b, 0);
+        grafo.adicionarAresta(d, b, 0);
+        grafo.adicionarAresta(e, a, 0);
 
-        System.out.println("\nBusca em largura\n");
-        grafo.buscaEmLargura();
         System.out.println(grafo.vertices.size());
         System.out.println(grafo.arestas.size());
         grafo.buscaEmProfundidade();
         System.out.println(grafo.verificaCiclo());
+        grafo.imprimirTopologia();
 
     }
     

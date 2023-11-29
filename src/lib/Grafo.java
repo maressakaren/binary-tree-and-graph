@@ -2,8 +2,10 @@
 package lib;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author maressakaren
@@ -19,11 +21,11 @@ public class Grafo <T>{
         this.vertices = new ArrayList<>();
         this.arestas = new ArrayList<>();
     }
-    public ArrayList<Vertice<T>> getVertices(){ return this.vertices;}
+    public List<Vertice<T>> getVertices(){ return this.vertices;}
 
 
     public Vertice<T> adicionaVertice(T valor){
-
+        List<Vertice<T>> visitados  = new ArrayList<>();
         Vertice<T> novo = new Vertice<T>(valor);
         this.vertices.add(novo);
         return novo;
@@ -39,6 +41,7 @@ public class Grafo <T>{
     public void adicionarAresta( Vertice<T> origem, Vertice<T> destino, float peso){
         Vertice<T> verticeOrigem, verticeDestino;
         Aresta<T> novAresta;
+        List<Vertice<T>> visitados  = new ArrayList<>();
 
         verticeOrigem = obterVertice(origem.getValor());
 
@@ -55,6 +58,11 @@ public class Grafo <T>{
 
         novAresta = new Aresta<T>(verticeOrigem, verticeDestino, peso);
         this.arestas.add(novAresta);
+        if( verificaCiclo()){
+            System.out.println("\n Aresta não adicionada pois há um ciclo nesse caminho: \n");
+            buscaEmProfundidadeRecursiva(verticeOrigem, visitados);
+            this.arestas.remove(novAresta);
+        }
 
     }
 
@@ -134,6 +142,86 @@ public class Grafo <T>{
 
         return false;
  
+    }
+
+    public List<Vertice<T>> ordenacaoTopologica(){
+
+        List<Vertice<T>> resultado = new ArrayList<>();
+        int [] tempo  = new int [vertices.size()];  // Cria uma lista do tamanho da quantidade de vertices que há no grafo
+
+        //Inicia a contagem do tempo para cada vertice
+
+        for( Vertice<T> vertice : this. vertices){
+            List<Aresta<T>> destinos = obterDestinos(vertice);
+
+            for( Aresta<T> aresta : destinos){
+                Vertice<T> proximo = aresta.getDestino();
+                tempo[this.vertices.indexOf(proximo)]++;  // incrementa o valor do indice correspondente ao proximo, esse indice contem o numero de arestas quee apontam para ele
+            }
+        }
+
+        //Adiciona os vertices sem tempo a lista
+
+        for( Vertice<T> vertice : vertices){
+            if( tempo[vertices.indexOf(vertice)]== 0){  // Verifica os vertices que não tem vizinhos 
+                resultado.add(vertice);
+            }
+        }
+
+        for( int i = 0; i < resultado.size(); i++){
+            Vertice<T> atual = resultado.get(i);
+            List<Aresta<T>> destinos = obterDestinos(atual);
+            for(Aresta<T> aresta : destinos ){
+
+                int indexProximo = vertices.indexOf(aresta.getDestino());
+                tempo[indexProximo]--;
+
+                //Quando o tempo for 0, eu posso adicionar a lista
+
+                if(tempo[indexProximo] == 0){
+                    resultado.add(aresta.getDestino());
+                }
+            }
+        }
+        return resultado;
+
+    }
+
+    public List<Vertice<T>> ordenacaoTopologicaDsf(){
+        List<Vertice<T>> resultado = new ArrayList<>();
+        List<Vertice<T>> visitados = new ArrayList<>();
+
+        for( Vertice<T> vertice : vertices){
+            if( !visitados.contains(vertice)){
+                dsf(vertice, visitados,resultado);
+            }
+        }
+
+        Collections.reverse(resultado);
+
+        return resultado;
+
+    }
+
+    private void dsf(Vertice<T> vertice, List<Vertice<T>> visitados, List<Vertice<T>> resultado){
+        visitados.add(vertice);
+        List<Aresta<T>> destinos = obterDestinos(vertice);
+
+        for( Aresta aresta : destinos){
+            Vertice<T> proximo = aresta.getDestino();
+            if( !visitados.contains(proximo)){
+                dsf(proximo,visitados,resultado);
+            }
+        }
+        resultado.add(vertice);
+    }
+
+    public void imprimirTopologia(){
+        List<Vertice<T>> resultado = ordenacaoTopologicaDsf();
+
+        for( Vertice<T> vertice: resultado){
+            System.out.println(vertice.getValor());
+        }
     }
     
 
