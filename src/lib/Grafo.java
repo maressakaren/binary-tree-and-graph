@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author maressakaren
@@ -25,7 +24,6 @@ public class Grafo <T>{
 
 
     public Vertice<T> adicionaVertice(T valor){
-        List<Vertice<T>> visitados  = new ArrayList<>();
         Vertice<T> novo = new Vertice<T>(valor);
         this.vertices.add(novo);
         return novo;
@@ -207,7 +205,7 @@ public class Grafo <T>{
         visitados.add(vertice);
         List<Aresta<T>> destinos = obterDestinos(vertice);
 
-        for( Aresta aresta : destinos){
+        for( Aresta<T> aresta : destinos){
             Vertice<T> proximo = aresta.getDestino();
             if( !visitados.contains(proximo)){
                 dsf(proximo,visitados,resultado);
