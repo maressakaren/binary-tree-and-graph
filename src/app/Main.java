@@ -1,12 +1,8 @@
 package app;
 
-import java.util.Comparator;
-
-import lib.ArvoreAVL;
 import lib.ArvoreBinaria;
 import lib.Grafo;
-import lib.IArvoreBinaria;
-import lib.No;
+
 import lib.Vertice;
 
 public class Main {
