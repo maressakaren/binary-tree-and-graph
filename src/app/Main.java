@@ -85,9 +85,9 @@ public class Main {
         
       
         
-        /*
+        
         System.out.println("\n\n ------------------GRAFO-----------------------\n\n");
-        Grafo<Aluno> grafo = new Grafo<>(comp);
+        Grafo<Aluno> grafo = new Grafo<>();
         Vertice <Aluno> a = grafo.adicionaVertice(aluno);
         Vertice<Aluno> b = grafo.adicionaVertice(aluno1);
         Vertice<Aluno> c =grafo.adicionaVertice(aluno2);
@@ -103,13 +103,13 @@ public class Main {
         grafo.adicionarAresta(a, e, 0);
         grafo.adicionarAresta(a, c, 0);
 
-        System.out.println("\nBusca em largura\n");
-
         System.out.println(grafo.vertices.size());
         System.out.println(grafo.arestas.size());
         grafo.buscaEmProfundidade();
         System.out.println(grafo.verificaCiclo());
-        */
+
+        grafo.imprimirTopologia();
+        
     }
     
 }
