@@ -141,7 +141,7 @@ public class Grafo <T>{
  
     }
 
-    public List<Vertice<T>> ordenacaoTopologica(){
+    /*public List<Vertice<T>> ordenacaoTopologica(){
 
         List<Vertice<T>> resultado = new ArrayList<>();
         int [] tempo  = new int [vertices.size()];  // Cria uma lista do tamanho da quantidade de vertices que há no grafo
@@ -182,7 +182,7 @@ public class Grafo <T>{
         }
         return resultado;
 
-    }
+    }*/
 
     public List<Vertice<T>> ordenacaoTopologicaDsf(){
         List<Vertice<T>> resultado = new ArrayList<>();
