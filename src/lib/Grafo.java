@@ -13,10 +13,9 @@ public class Grafo <T>{
 
     public ArrayList<Aresta<T>> arestas;
     public ArrayList<Vertice<T>> vertices;
-    protected Comparator<T> comparador;
+  
 
-    public Grafo(Comparator<T> comp){
-        this.comparador = comp;
+    public Grafo(){
         this.vertices = new ArrayList<>();
         this.arestas = new ArrayList<>();
     }
@@ -57,9 +56,9 @@ public class Grafo <T>{
         novAresta = new Aresta<T>(verticeOrigem, verticeDestino, peso);
         this.arestas.add(novAresta);
         if( verificaCiclo()){
-            System.out.println("\n Aresta não adicionada pois há um ciclo nesse caminho: \n");
+            System.out.println("\n Há um ciclo neste caminho: \n");
             buscaEmProfundidadeRecursiva(verticeOrigem, visitados);
-            this.arestas.remove(novAresta);
+            
         }
 
     }

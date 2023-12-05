@@ -21,7 +21,7 @@ import java.util.Comparator;
  */
 public class ArvoreBinaria<T> implements IArvoreBinaria<T>
 {
-    protected No<T> raiz;
+    public No<T> raiz;
     protected Comparator<T> comparador;
     protected No<T> atual;
     protected No<T> proximoNo;
@@ -161,33 +161,31 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T>
         return valor;
     }
 
-    protected No<T> removerRecursivo(No<T> no, T valor){
-
-        if( no == null){
-            System.out.println("A ARVORE ESTÁ VAZIA");
+    protected No<T> removerRecursivo(No<T> no, T valor) {
+        if (no == null) {
+            System.out.println("A ÁRVORE ESTÁ VAZIA");
             return null;
-        }
-        else{
-            if( this.comparador.compare(valor, no.getValor()) < 0 ){
+        } else {
+            if (comparador.compare(valor, no.getValor()) < 0) {
                 no.setFilhoEsquerda(removerRecursivo(no.getFilhoEsquerda(), valor));
-            }
-            else if ( this.comparador.compare(valor, no.getValor()) > 0){
+            } else if (comparador.compare(valor, no.getValor()) > 0) {
                 no.setFilhoDireita(removerRecursivo(no.getFilhoDireita(), valor));
+            } else {
+                // Nó a ser removido encontrado
+                if (no.getFilhoDireita() != null && no.getFilhoEsquerda() != null) {
+                    // Nó tem dois filhos
+                    No<T> substituto = encontrarMenorNo(no.getFilhoDireita());
+                    no.setValor(substituto.getValor());
+                    no.setFilhoDireita(removerMenorNo(no.getFilhoDireita()));
+                } else {
+                    // Nó tem um ou nenhum filho
+                    no = (no.getFilhoEsquerda() != null) ? no.getFilhoEsquerda() : no.getFilhoDireita();
+                }
             }
-            else if( no.getFilhoDireita()!= null && no.getFilhoEsquerda()!=null){ // Se o nó a ser removido tiver 2 filhos
-                no.setValor(encontrarMenorNo(encontrarMenorNo(no.getFilhoDireita())).getValor());
-                no.setFilhoDireita(removerMenorNo(no.getFilhoDireita()));
-                System.out.println("  Removeu No " + no.getValor());
-
-            }else {  
-                System.out.println("  Removeu No " + no.getValor());  
-                no = (no.getFilhoEsquerda() != null) ? no.getFilhoEsquerda() : no.getFilhoDireita();  
-            }  
             return no;
-    
-
         }
     }
+    
 
     private No<T> removerMenorNo(No<T> no){
         if (no == null) {  
@@ -245,6 +243,7 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T>
             No<T> atual = fila.remove(0);  // Removendo o primeiro elemento
             resultado.append(atual.getValor()).append("\n");
     
+            // Adicionando primeiro o filho esquerdo, e depois o filho direito
             if (atual.getFilhoEsquerda() != null) {
                 fila.add(atual.getFilhoEsquerda());
             }
@@ -256,6 +255,7 @@ public class ArvoreBinaria<T> implements IArvoreBinaria<T>
     
         return resultado.toString();
     }
+    
 
     
     @Override
